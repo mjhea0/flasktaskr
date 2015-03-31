@@ -9,4 +9,3 @@ WTF_CSFR_ENABLED = True
 SECRET_KEY = 'my_precious'
 
 DATABASE_PATH = os.path.join(basedir, DATABASE)
-
