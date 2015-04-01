@@ -78,10 +78,45 @@ def new_task():
         flash("All fields are required. Please try again.")
         return redirect(url_for('tasks'))
     else:
-        g.db.execute(' insert into tasks(name, due_date, priority,
-                     status)
+        g.db.execute(' insert into tasks(name, due_date, priority, status) \
                      values(?, ?, ?, 1) ', [
-                        request.form['name'],
-                        request.form['due_date'],
-                        request.form['priority']
+            request.form['name'],
+            request.form['due_date'],
+            request.form['priority']
         ]
+        )
+        g.db.commit()
+        g.db.close()
+        flash('New entry was successfully posted. Thanks.')
+        return redirect(url_for('tasks'))
+
+
+# Mark a task complete
+@app.route('/complete/<int:task_id>/')
+@login_required
+def complete(task_id):
+    g.db = connect.db()
+    g.db.execute(
+        'update tasks set status = 0 where task_id' + str(task_id)
+    )
+    g.db.commit()
+    g.db.close()
+    flash('The task was marked as complete.')
+    return redirect(url_for('tasks'))
+
+# delete tasks
+@app.route('/delete/<int:task_id>/')
+@login_required
+def delete_entry(task_id):
+    g.db = connect.db
+    g.db.execute('delete from tasks where task_id=' + (task_id))
+    g.db.commit()
+    g.db.close()
+    flash('The task was deleted.')
+    return redirect(url_for('tasks'))
+
+
+
+
+
+
