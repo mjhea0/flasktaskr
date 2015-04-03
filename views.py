@@ -3,6 +3,7 @@ from flask import Flask, flash, redirect, render_template, request, \
 
 from functools import wraps
 import sqlite3
+from forms import AddTaskForms
 
 app = Flask(__name__)
 app.config.from_object('config')
