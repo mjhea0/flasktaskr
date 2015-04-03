@@ -104,6 +104,7 @@ def complete(task_id):
     flash('The task was marked as complete.')
     return redirect(url_for('tasks'))
 
+
 # delete tasks
 @app.route('/delete/<int:task_id>/')
 @login_required
