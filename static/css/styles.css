@@ -4,12 +4,12 @@ body {
 }
 
 a, h1, h2 {
- color: #377ba8;
+  color: #377BA8;
 }
 
-h1, h2  {
-  font-family: 'Georgia',
-  serif; margin: 0;
+h1, h2 {
+  font-family: 'Georgia', serif;
+  margin: 0;
 }
 
 h1 {
@@ -17,12 +17,12 @@ h1 {
 }
 
 h2 {
-  font-size: 1.2em;
+  font-size: 1.5em;
 }
 
 .page {
   margin: 2em auto;
-  width: 35em;
+  width: 50em;
   border: 5px solid #ccc;
   padding: 0.8em;
   background: white;
@@ -38,16 +38,15 @@ h2 {
   margin: 0.8em 1.2em;
 }
 
-.entries li h2  {
+.entries li h2 {
   margin-left: -1em;
 }
 
-.add-entry {
+.add-task {
   font-size: 0.9em;
   border-bottom: 1px solid #ccc;
 }
-
-.add-entry dl {
+.add-task dl {
   font-weight: bold;
 }
 
@@ -60,9 +59,8 @@ h2 {
 }
 
 .flash {
-  background: #cee5F5;
+  background: #CEE5F5;
   padding: 0.5em;
-  border: 1px solid #aacbe2;
 }
 
 .error {
@@ -71,37 +69,37 @@ h2 {
 }
 
 .datagrid table {
- border-collapse: collapse;
- text-align: left;
-width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
 }
 
 .datagrid {
- background: #fff;
- overflow: hidden;
- border: 1px solid #000000;
- border-radius: 3px;
+  background: #fff;
+  overflow: hidden;
+  border: 1px solid #000000;
+  border-radius: 3px;
 }
 
 .datagrid table td, .datagrid table th {
- padding: 3px 10px;
+  padding: 3px 10px;
 }
 
 .datagrid table thead th {
- background-color:#000000;
- color:#FFFFFF;
- font-size: 15px;
- font-weight: bold;
+  background-color:#000000;
+  color:#FFFFFF;
+  font-size: 15px;
+  font-weight: bold;
 }
 .datagrid table thead th:first-child {
- border: none;
- }
+  border: none;
+}
 
 .datagrid table tbody td {
- color: #000000;
- border-left: 1px solid #E1EEF4;
- font-size: 12px;
- font-weight: normal;
+  color: #000000;
+  border-left: 1px solid #E1EEF4;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .datagrid table tbody .alt td {
@@ -110,46 +108,20 @@ width: 100%;
 }
 
 .datagrid table tbody td:first-child {
- border-left: none;
+  border-left: none;
 }
 
 .datagrid table tbody tr:last-child td {
- border-bottom: none;
+  border-bottom: none;
 }
 
 .button {
- background-color:#000;
- display:inline-block;
- color:#ffffff;
- font-size:13px;
- padding:3px 12px;
- margin: 0;
- text-decoration:none;
- position:relative;
+  background-color:#000;
+  display:inline-block;
+  color:#ffffff;
+  font-size:13px;
+  padding:3px 12px;
+  margin: 0;
+  text-decoration:none;
+  position:relative;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.error          { background: #f0d6d6; padding: 0.5em; }

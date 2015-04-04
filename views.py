@@ -6,7 +6,7 @@ import sqlite3
 from forms import AddTaskForm
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('_config')
 
 
 def connect_db():
@@ -67,6 +67,7 @@ def tasks():
         closed_tasks=closed_tasks
     )
 
+
 # add new tasks
 @app.route('/add/', methods=['POST'])
 @login_required
@@ -96,7 +97,7 @@ def new_task():
 @app.route('/complete/<int:task_id>/')
 @login_required
 def complete(task_id):
-    g.db = connect.db()
+    g.db = connect_db()
     g.db.execute(
         'update tasks set status = 0 where task_id' + str(task_id)
     )
@@ -110,15 +111,9 @@ def complete(task_id):
 @app.route('/delete/<int:task_id>/')
 @login_required
 def delete_entry(task_id):
-    g.db = connect.db
+    g.db = connect_db
     g.db.execute('delete from tasks where task_id=' + (task_id))
     g.db.commit()
     g.db.close()
     flash('The task was deleted.')
     return redirect(url_for('tasks'))
-
-
-
-
-
-

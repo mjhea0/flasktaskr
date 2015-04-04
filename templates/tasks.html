@@ -34,7 +34,7 @@
                 <td>
                     &nbsp;
                     &nbsp;
-                    <input class="button" type"submit" value="Save">
+                    <input class="button" type="submit" value="Save">
                 </td>
             </form>
         </tr>
@@ -60,10 +60,8 @@
                     <td width="100px">{{ task.due_date }}</td>
                     <td width="50px">{{ task.priority }}</td>
                     <td>
-                        <a href=" {{url_for('delete_entry', task_id =
-                            task.task.id) }}">Delete</a>
-                        <a href=" {{url_for('complete', task_id = task.task.id)
-                            }}"> Mark as Complete</a>
+                        <a href=" {{url_for('delete_entry', task_id = task.task_id) }}">Delete</a>
+                        <a href=" {{url_for('complete', task_id = task.task_id) }}"> Mark as Complete</a>
                     </td>
                 </tr>
             {% endfor %}
