@@ -1,8 +1,9 @@
+import sqlite3
+from functools import wraps
+
 from flask import Flask, flash, redirect, render_template, request, \
     session, url_for, g
 
-from functools import wraps
-import sqlite3
 from forms import AddTaskForm
 
 app = Flask(__name__)
@@ -27,7 +28,7 @@ def login_required(test):
 @app.route('/logout/')
 def logout():
     session.pop('logged_in', None)
-    flash('You are logged out. Bye. :(')
+    flash('Goodbye')
     return redirect(url_for('login'))
 
 
@@ -40,9 +41,9 @@ def login():
             return render_template('login.html', error=error)
         else:
             session['logged_in'] = True
+            flash('Welcome!')
             return redirect(url_for('tasks'))
-    if request.method == 'GET':
-        return render_template('login.html')
+    return render_template('login.html')
 
 
 @app.route('/tasks/')
@@ -94,7 +95,7 @@ def new_task():
 
 
 # Mark a task complete
-@app.route('/complete/<int:task_id>/')
+@app.route(' /complete/<int:task_id>/')
 @login_required
 def complete(task_id):
     g.db = connect_db()
@@ -108,7 +109,7 @@ def complete(task_id):
 
 
 # delete tasks
-@app.route('/delete/<int:task_id>/')
+@app.route(' /delete/<int:task_id>/')
 @login_required
 def delete_entry(task_id):
     g.db = connect_db
