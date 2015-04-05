@@ -28,7 +28,7 @@ def login_required(test):
 @app.route('/logout/')
 def logout():
     session.pop('logged_in', None)
-    flash('Goodbye')
+    flash('Goodbye! ')
     return redirect(url_for('login'))
 
 
@@ -94,13 +94,13 @@ def new_task():
         return redirect(url_for('tasks'))
 
 
-# Mark a task complete
-@app.route(' /complete/<int:task_id>/')
+# Mark tasks as complete
+@app.route('/complete/<int:task_id>/')
 @login_required
 def complete(task_id):
     g.db = connect_db()
     g.db.execute(
-        'update tasks set status = 0 where task_id' + str(task_id)
+        'update tasks set status = 0 where task_id=' + str(task_id)
     )
     g.db.commit()
     g.db.close()
@@ -108,11 +108,11 @@ def complete(task_id):
     return redirect(url_for('tasks'))
 
 
-# delete tasks
-@app.route(' /delete/<int:task_id>/')
+# Delete Tasks
+@app.route('/delete/<int:task_id>/')
 @login_required
 def delete_entry(task_id):
-    g.db = connect_db
+    g.db = connect_db()
     g.db.execute('delete from tasks where task_id=' + str(task_id))
     g.db.commit()
     g.db.close()
