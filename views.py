@@ -6,6 +6,7 @@ from flask import Flask, flash, redirect, render_template, request, \
 
 from forms import AddTaskForm
 
+# create application object to handling views, routing, etc.
 app = Flask(__name__)
 app.config.from_object('_config')
 
