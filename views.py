@@ -11,10 +11,12 @@ app = Flask(__name__)
 app.config.from_object('_config')
 
 
+# connect to database
 def connect_db():
     return sqlite3.connect(app.config['DATABASE'])
 
 
+# checks if you're logged in, redirects in not. Secures app from being accessed.
 def login_required(test):
     @wraps(test)
     def wrap(*args, **kwargs):
@@ -26,6 +28,7 @@ def login_required(test):
     return wrap
 
 
+# logs out app by ending the session
 @app.route('/logout/')
 def logout():
     session.pop('logged_in', None)
@@ -33,6 +36,7 @@ def logout():
     return redirect(url_for('login'))
 
 
+# after hitting first page & entering username/password, check accuracy and redirects to tasks
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -66,7 +70,7 @@ def tasks():
         'tasks.html',
         form=AddTaskForm(request.form),
         open_tasks=open_tasks,
-        closed_tasks=closed_tasks
+        closed_tasks=closed_tasks,
     )
 
 
