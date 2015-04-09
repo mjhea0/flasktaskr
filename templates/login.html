@@ -2,7 +2,8 @@
 {% block content %}
     <h1> Welcome to FlaskTaskr. </h1>
     <h3>Please login to access your task list.</h3>
-
+    
+<!-- form below collects usernamer and password -->
     <form method="post" action="/">
         <span>Username: <input type="text" name="username"
             value="{{request.form.username}}"></span>
