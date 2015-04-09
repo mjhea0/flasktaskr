@@ -50,7 +50,7 @@ def login():
             return redirect(url_for('tasks'))
     return render_template('login.html')
 
-
+# connect to database, select data from database and show using tasks.html template 
 @app.route('/tasks/')
 @login_required
 def tasks():
