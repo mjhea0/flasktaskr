@@ -7,16 +7,18 @@
             filename='css/styles.css') }}">
     </head>
     <body>
+<!-- show messages using the get_flashed_messages() function --> 
         <div class="page">
             {% for message in get_flashed_messages() %}
                 <div class="flash">{{ message }}</div>
             {% endfor %}
+<!-- if error commited, flashes error below -->
             {% if error %}
                 <div class="error"><strong>Error:</strong> {{ error }} </div>
             {% endif %}
 
             <br>
-
+<!-- enter block content from other templates/html pages below -->
             {% block content %}
             {% endblock %}
         </div>
