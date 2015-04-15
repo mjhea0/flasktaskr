@@ -31,6 +31,7 @@ def login_required(test):
 @app.route('/logout/')
 def logout():
     session.pop('logged_in', None)
+    session.pop('user_id', None)
     flash('Goodbye! ')
     return redirect(url_for('login'))
 
