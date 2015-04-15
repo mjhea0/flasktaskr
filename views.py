@@ -47,6 +47,7 @@ def login():
             if user is not None and user.password ==
                 request.form['password']:
                 session['logged_in'] = True
+                session['user_id'] = user.id
                 flash('Welcome!')
                 return redirect(url_for('tasks'))
             else:
@@ -84,12 +85,16 @@ def new_task():
                 form.priority.data,
                 datetime.datetime.utcnow(),
                 "1",
-                "1"
+                session['user_id']
             )
             db.session.add(new_task)
             db.session.commit()
             flash('New entry was successfully posted. Thanks.')
-    return redirect(url_for('tasks'))
+            return redirect(url_for('tasks'))
+        else:
+            flash("All fields are required.')
+            return redirect(url_for('tasks'))
+    return render_template)'tasks.html', form=form)
 
 
 # Mark tasks as complete
