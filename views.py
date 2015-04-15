@@ -1,4 +1,4 @@
-from forms import AddTaskForm
+from forms import AddTaskForm, RegisterForm, LoginForm
 
 from functools import wraps
 from flask import Flask, flash, redirect, render_template, request, \
@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config.from_object('_config')
 db = SQLAlchemy(app)
 
-from models import Task
+from models import Task, user
 
 
 # checks if you're logged in, redirects in not. Secures app from being accessed.
@@ -103,3 +103,21 @@ def delete_entry(task_id):
     db.session.commit()
     flash('The task was delete. Why not add a new one?')
     return redirect(url_for('tasks'))
+
+#registers new users
+@app.route('/register/', methods=['GET', 'POST'])
+def register():
+    error = None
+    form = RegisterForm(request.form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            new_user = User(
+                form.name.data,
+                form.email.data,
+                form.password.data,
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Thanks for registering. Please login.')
+            return redirect(url_for('login'))
+    return render_template('register.html', form=form, error=error)
