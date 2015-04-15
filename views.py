@@ -37,16 +37,22 @@ def logout():
 # after hitting first page & entering username/password, check accuracy and redirects to tasks
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    error = None
+    form = LoginForm(request.form)
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME'] \
-                or request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid Credentials. Please try again.'
-            return render_template('login.html', error=error)
+        if form.validate_on_submit():
+            user =
+                User.query.filter_by(name=request.form['name']).first()
+            if user is not None and user.password ==
+                request.form['password']:
+                session['logged_in'] = True
+                flash('Welcome!')
+                return redirect(url_for('tasks'))
+            else:
+                error = 'Both fields are required.'
         else:
-            session['logged_in'] = True
-            flash('Welcome!')
-            return redirect(url_for('tasks'))
-    return render_template('login.html')
+            error = 'Both fields are required.'
+    return render_template('login.html', form=form, error=error)
 
 # connect to database, select data from database and show using tasks.html template
 @app.route('/tasks/')
