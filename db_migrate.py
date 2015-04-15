@@ -21,5 +21,5 @@ with sqlite3.connect(DATABASE_PATH) as connection:
     c.executemany("""INSERT INTO tasks (name, due_date, prioirity,status, 
                   posted_date, user_id) VALUES (?, ?, ?, ?, ?,?""", data)
                   
-    c.execute("DROP TABLE old_tasks"
+    c.execute("DROP TABLE old_tasks")
       
