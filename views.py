@@ -4,6 +4,7 @@ from functools import wraps
 from flask import Flask, flash, redirect, render_template, request, \
     session, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
+import datetime
 
 
 # create application object to handling views, routing, etc.
@@ -81,6 +82,8 @@ def new_task():
                 form.name.data,
                 form.due_data.data,
                 form.priority.data,
+                datetime.datetime.utcnow(),
+                "1",
                 "1"
             )
             db.session.add(new_task)
