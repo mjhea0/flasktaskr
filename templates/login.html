@@ -1,19 +1,22 @@
 {% extends "_base.html" %}
 {% block content %}
-    <h1> Welcome to FlaskTaskr. </h1>
-    <h3>Please login to access your task list.</h3>
+<h1> Welcome to FlaskTaskr. </h1>
+<h3>Please login to access your task list.</h3>
     
 <!-- form below collects usernamer and password -->
-    <form method="post" action="/">
-        <span>Username: <input type="text" name="username"
-            value="{{request.form.username}}"></span>
-        <span>Password: <input type="password" name="password"
-            value="{{request.form.password}}"></span>
-
-        <input type="submit" value="Login">
-    </form>
-    <br>
+<form method="post" action="/">
+    {{ form.csrf_token }}
+    <p>
+        {{ form.name.label }}: {{ form.name }}
+        &nbsp;&nbsp;
+        {{ form.password.label }}: {{ form.password }}
+         &nbsp;&nbsp;
+         <input type="submit" value="Submit"
+    </p>
+</form>
     
-    <p><em>Need an account?</em><a href="/register">Signup!!</a></p>
+<br>
+    
+<p><em>Need an account?</em><a href="/register">Signup!!</a></p>
 {% endblock %}
 
