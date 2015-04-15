@@ -20,3 +20,10 @@ class AddTaskForm(Form):
         ]
     )
     status = IntegerField('Status')
+
+class RegisterForm(Form):
+    name = StringField(
+            'Username' ,
+            validators=[DataRequired(), Length(min=6, max=25)]
+    )
+
