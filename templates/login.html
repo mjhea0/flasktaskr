@@ -2,7 +2,7 @@
 {% block content %}
 <h1> Welcome to FlaskTaskr. </h1>
 <h3>Please login to access your task list.</h3>
-    
+
 <!-- form below collects usernamer and password -->
 <form method="post" action="/">
     {{ form.csrf_token }}
@@ -14,9 +14,9 @@
          <input type="submit" value="Submit"
     </p>
 </form>
-    
+
 <br>
-    
-<p><em>Need an account?</em><a href="/register">Signup!!</a></p>
+
+<p><em>Need an account?</em><a href="/register"> Signup!!</a></p>
 {% endblock %}
 
