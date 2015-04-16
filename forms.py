@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired, Length, EqualTo
 
 class AddTaskForm(Form):
     task_id = IntegerField('Priority')
-    name = TextField('Task Name', validators=[DataRequired()])
+    name = StringField('Task Name', validators=[DataRequired()])
     due_date = DateField(
         'Data Due (mm/dd/yyyy)',
         validators=[DataRequired()], format='%m, %d, %Y'
@@ -21,10 +21,11 @@ class AddTaskForm(Form):
     )
     status = IntegerField('Status')
 
+
 class RegisterForm(Form):
     name = StringField(
-            'Username' ,
-            validators=[DataRequired(), Length(min=6, max=25)]
+        'Username',
+        validators=[DataRequired(), Length(min=6, max=25)]
     )
     email = StringField(
         'Email',
@@ -32,13 +33,13 @@ class RegisterForm(Form):
     )
     password = PasswordField(
         'Password',
-        validators = [DataRequired(), Length(min=6, max=40)])
-        confirm = PasswordField(
-            'Repeat Password',
-            [DataRequired(), EqualTo('password', message='Passwords
-                must match')]
+        validators=[DataRequired(), Length(min=6, max=40)])
+    confirm = PasswordField(
+        'Repeat Password',
+        [DataRequired(), EqualTo('password', message='Passwords must match')]
     )
-    
+
+
 class LoginForm(Form):
     name = StringField(
         'Username',
@@ -48,4 +49,3 @@ class LoginForm(Form):
         'Password',
         validators=[DataRequired()]
     )
-

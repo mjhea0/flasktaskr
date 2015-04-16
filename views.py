@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config.from_object('_config')
 db = SQLAlchemy(app)
 
-from models import Task, user
+from models import Task, User
 
 
 # checks if you're logged in, redirects in not. Secures app from being accessed.
@@ -43,10 +43,8 @@ def login():
     form = LoginForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            user =
-                User.query.filter_by(name=request.form['name']).first()
-            if user is not None and user.password ==
-                request.form['password']:
+            user = User.query.filter_by(name=request.form['name']).first()
+            if user is not None and user.password == request.form['password']:
                 session['logged_in'] = True
                 session['user_id'] = user.id
                 flash('Welcome!')
@@ -58,6 +56,8 @@ def login():
     return render_template('login.html', form=form, error=error)
 
 # connect to database, select data from database and show using tasks.html template
+
+
 @app.route('/tasks/')
 @login_required
 def tasks():
@@ -93,9 +93,9 @@ def new_task():
             flash('New entry was successfully posted. Thanks.')
             return redirect(url_for('tasks'))
         else:
-            flash("All fields are required.')
+            flash("All fields are required.")
             return redirect(url_for('tasks'))
-    return render_template)'tasks.html', form=form)
+    return render_template('tasks.html', form=form)
 
 
 # Mark tasks as complete
@@ -119,7 +119,9 @@ def delete_entry(task_id):
     flash('The task was delete. Why not add a new one?')
     return redirect(url_for('tasks'))
 
-#registers new users
+# registers new users
+
+
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
     error = None
