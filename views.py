@@ -26,6 +26,20 @@ def login_required(test):
             return redirect(url_for('login'))
     return wrap
 
+def flash_errors(form):
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(u"Error in the %s field - %s" % (
+                getattr(form, field).label,text, error), 'error')
+                
+def open_tasks():
+    return db.session.query(Task).filter_by(
+        status='1').order_by(Task.due_date.asc())
+        
+def closed_tasks():
+    return db.session.query(Task).filter_by(
+        status='0').order_by(Task.due_date.asc())
+
 
 # logs out app by ending the session
 @app.route('/logout/')
@@ -138,9 +152,4 @@ def register():
             flash('Thanks for registering. Please login.')
             return redirect(url_for('login'))
     return render_template('register.html', form=form, error=error)
-    
-def flash_errors(form):
-    for field, errors in form.errors.items():
-        for error in errors:
-            flash(u"Error in the %s field - %s" % (
-                getattr(form, field).label,text, error), 'error')
+
