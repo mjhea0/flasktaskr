@@ -47,6 +47,7 @@ def closed_tasks():
 
 # logs out app by ending the session
 @app.route('/logout/')
+@login_required
 def logout():
     session.pop('logged_in', None)
     session.pop('user_id', None)
