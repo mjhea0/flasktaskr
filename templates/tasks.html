@@ -4,8 +4,6 @@
 <h1>Welcome to FlaskTaskr</h1>
 <br>
 <a href="/logout">Logout</a>
-
-<!-- add a new task and give priority -->
 <div class="add-task">
   <h3>Add a new task:</h3>
     <form action="{{ url_for('new_task') }}" method="post">
@@ -36,7 +34,7 @@
       <span class="error">
         {% if form.priority.errors %}
           {% for error in form.priority.errors %}
-           {{ error }}
+            {{ error }}
           {% endfor %}
         {% endif %}
       </span>
@@ -44,8 +42,6 @@
       <p><input type="submit" value="Submit"></p>
     </form>
 </div>
-
-<!-- view open tasks -->
 <div class="entries">
   <br>
   <br>
@@ -58,7 +54,7 @@
           <th width="75px"><strong>Due Date</strong></th>
           <th width="100px"><strong>Posted Date</strong></th>
           <th width="50px"><strong>Priority</strong></th>
-          <th width="90x"><strong>Posted By</strong></th>
+          <th width="90px"><strong>Posted By</strong></th>
           <th><strong>Actions</strong></th>
         </tr>
       </thead>
@@ -77,23 +73,20 @@
       {% endfor %}
     </table>
   </div>
-</div>  
+</div>
 <br>
 <br>
-
-
-<!-- view closed tasks-->
 <div class="entries">
   <h2>Closed tasks:</h2>
   <div class="datagrid">
-     <table>
+    <table>
       <thead>
         <tr>
           <th width="200px"><strong>Task Name</strong></th>
           <th width="75px"><strong>Due Date</strong></th>
           <th width="100px"><strong>Posted Date</strong></th>
           <th width="50px"><strong>Priority</strong></th>
-          <th width="90x"><strong>Posted By</strong></th>
+          <th width="90px"><strong>Posted By</strong></th>
           <th><strong>Actions</strong></th>
         </tr>
       </thead>
@@ -105,13 +98,13 @@
           <td width="50px">{{ task.priority }}</td>
           <td width="90px">{{ task.poster.name }}</td>
           <td>
-            <a href="{{ url_for('delete_entry', task_id = task.task_id) }}">Delete</a>
+             <a href="{{ url_for('delete_entry', task_id = task.task_id) }}">Delete</a>
           </td>
         </tr>
       {% endfor %}
     </table>
   </div>
-</div>
+<div>
 
 {% endblock %}
 

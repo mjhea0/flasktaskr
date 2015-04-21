@@ -27,16 +27,19 @@ def login_required(test):
             return redirect(url_for('login'))
     return wrap
 
+
 def flash_errors(form):
     for field, errors in form.errors.items():
         for error in errors:
             flash(u"Error in the %s field - %s" % (
-                getattr(form, field).label,text, error), 'error')
-                
+                getattr(form, field).label.text, error), 'error')
+
+
 def open_tasks():
     return db.session.query(Task).filter_by(
         status='1').order_by(Task.due_date.asc())
-        
+
+
 def closed_tasks():
     return db.session.query(Task).filter_by(
         status='0').order_by(Task.due_date.asc())
@@ -107,8 +110,8 @@ def new_task():
         else:
             return render_template(url_for('tasks'))
     return render_template(
-        'tasks.html', 
-        form=form, 
+        'tasks.html',
+        form=form,
         error=error,
         open_tasks=open_tasks(),
         closed_tasks=closed_tasks()
@@ -159,4 +162,3 @@ def register():
                 error = 'That username and/or email already exist.'
                 return render_template('register.html', form=form, error=error)
     return render_template('register.html', form=form, error=error)
-
