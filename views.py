@@ -74,7 +74,27 @@ def login():
             error = 'Both fields are required.'
     return render_template('login.html', form=form, error=error)
 
-# connect to database, select data from database and show using tasks.html template
+
+@app.route('/register/', methods=['GET', 'POST'])
+def register():
+    error = None
+    form = RegisterForm(request.form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            new_user = User(
+                form.name.data,
+                form.email.data,
+                form.password.data,
+            )
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+                flash('Thanks for registering. Please login.')
+                return redirect(url_for('login'))
+            except IntegrityError:
+                error = 'That username and/or email already exist.'
+                return render_template('register.html', form=form, error=error)
+    return render_template('register.html', form=form, error=error)
 
 
 @app.route('/tasks/')
@@ -83,8 +103,8 @@ def tasks():
     return render_template(
         'tasks.html',
         form=AddTaskForm(request.form),
-        open_tasks=open_tasks,
-        closed_tasks=closed_tasks,
+        open_tasks=open_tasks(),
+        closed_tasks=closed_tasks()
     )
 
 
@@ -139,27 +159,3 @@ def delete_entry(task_id):
     db.session.commit()
     flash('The task was delete. Why not add a new one?')
     return redirect(url_for('tasks'))
-
-# registers new users
-
-
-@app.route('/register/', methods=['GET', 'POST'])
-def register():
-    error = None
-    form = RegisterForm(request.form)
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            new_user = User(
-                form.name.data,
-                form.email.data,
-                form.password.data,
-            )
-            try:
-                db.session.add(new_user)
-                db.session.commit()
-                flash('Thanks for registering. Please login.')
-                return redirect(url_for('login'))
-            except IntegrityError:
-                error = 'That username and/or email already exist.'
-                return render_template('register.html', form=form, error=error)
-    return render_template('register.html', form=form, error=error)
