@@ -64,8 +64,7 @@ class AllTests(unittest.TestCase):
     ###############
 
     def test_user_can_register(self):
-        new_user = User("michael", "michael@mherman.org",
-                        "michaelherman")
+        new_user = User("michael", "michael@mherman.org", "michaelherman")
         db.session.add(new_user)
         db.session.commit()
         test = db.session.query(User).all()
@@ -84,8 +83,7 @@ class AllTests(unittest.TestCase):
         self.assertIn(b'Invalid username or password.', response.data)
 
     def test_users_can_login(self):
-        self.register('Michael', 'michael@realpython.com', 'python',
-                      'python')
+        self.register('Michael', 'michael@realpython.com', 'python', 'python')
         response = self.login('Michael', 'python')
         self.assertIn('You are logged in. Go crazy.', response.data)
 
