@@ -16,7 +16,8 @@ db = SQLAlchemy(app)
 from models import Task, User
 
 
-# checks if you're logged in, redirects in not. Secures app from being accessed.
+# checks if you're logged in, redirects in not.
+# Secures app from being accessed.
 def login_required(test):
     @wraps(test)
     def wrap(*args, **kwargs):
@@ -55,7 +56,8 @@ def logout():
     return redirect(url_for('login'))
 
 
-# after hitting first page & entering username/password, check accuracy and redirects to tasks
+# after hitting first page & entering username/password,
+# check accuracy and redirects to tasks
 @app.route('/', methods=['GET', 'POST'])
 def login():
     error = None
@@ -97,7 +99,7 @@ def register():
     return render_template('register.html', form=form, error=error)
 
 
-@app.route('/tasks/')
+@app.route('/tasks/', methods=['GET', 'POST'])
 @login_required
 def tasks():
     return render_template(
@@ -109,27 +111,26 @@ def tasks():
 
 
 # add new tasks
-@app.route('/add/', methods=['POST'])
+@app.route('/add/', methods=['GET', 'POST'])
 @login_required
 def new_task():
     error = None
     form = AddTaskForm(request.form)
+    print form.due_date.data
     if request.method == 'POST':
         if form.validate_on_submit():
             new_task = Task(
                 form.name.data,
-                form.due_data.data,
+                form.due_date.data,
                 form.priority.data,
                 datetime.datetime.utcnow(),
-                "1",
+                '1',
                 session['user_id']
             )
             db.session.add(new_task)
             db.session.commit()
             flash('New entry was successfully posted. Thanks.')
             return redirect(url_for('tasks'))
-        else:
-            return render_template(url_for('tasks'))
     return render_template(
         'tasks.html',
         form=form,
@@ -144,7 +145,7 @@ def new_task():
 @login_required
 def complete(task_id):
     new_id = task_id
-    db.session.query(Task).filter_by(task_id=new_id).upgrade({"status": "0"})
+    db.session.query(Task).filter_by(task_id=new_id).update({"status": "0"})
     db.session.commit()
     flash('The task is complete. Nice.')
     return redirect(url_for('tasks'))
