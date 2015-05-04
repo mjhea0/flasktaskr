@@ -1,6 +1,3 @@
-# project/test.py
-
-
 import os
 import unittest
 
@@ -14,10 +11,9 @@ TEST_DB = 'test.db'
 class AllTests(unittest.TestCase):
 
     ############################
-    #### setup and teardown ####
+    ### setup and teardown ####
     ############################
 
-    # executed prior to each test
     def setUp(self):
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
@@ -27,9 +23,9 @@ class AllTests(unittest.TestCase):
         db.create_all()
 
     # executed after to each test
+
     def tearDown(self):
         db.drop_all()
-
 
     ########################
     #### helper methods ####
@@ -63,12 +59,11 @@ class AllTests(unittest.TestCase):
             status='1'
         ), follow_redirects=True)
 
-
     ###############
     #### tests ####
     ###############
 
-    def test_users_can_register(self):
+    def test_user_can_register(self):
         new_user = User("michael", "michael@mherman.org", "michaelherman")
         db.session.add(new_user)
         db.session.commit()
@@ -80,7 +75,8 @@ class AllTests(unittest.TestCase):
     def test_form_is_present_on_login_page(self):
         response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Please sign in to access your task list', response.data)
+        self.assertIn(b'Please sign in to access your task list',
+                      response.data)
 
     def test_users_cannot_login_unless_registered(self):
         response = self.login('foo', 'bar')
@@ -89,7 +85,7 @@ class AllTests(unittest.TestCase):
     def test_users_can_login(self):
         self.register('Michael', 'michael@realpython.com', 'python', 'python')
         response = self.login('Michael', 'python')
-        self.assertIn(b'Welcome!', response.data)
+        self.assertIn('You are logged in. Go crazy.', response.data)
 
     def test_invalid_form_data(self):
         self.register('Michael', 'michael@realpython.com', 'python', 'python')
@@ -99,15 +95,14 @@ class AllTests(unittest.TestCase):
     def test_form_is_present_on_register_page(self):
         response = self.app.get('register/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Please register to access the task list.', response.data)
+        self.assertIn(b"Please register to access the task list.", response.data)
 
     def test_user_registeration(self):
         self.app.get('register/', follow_redirects=True)
-        response = self.register(
-            'Michael', 'michael@realpython.com', 'python', 'python')
+        response = self.register('Michael', 'michael@realpython.com', 'python', 'python')
         self.assertIn(b'Thanks for registering. Please login.', response.data)
 
-    def test_user_registeration_error(self):
+    def test_user_registration_error(self):
         self.app.get('register/', follow_redirects=True)
         self.register('Michael', 'michael@realpython.com', 'python', 'python')
         self.app.get('register/', follow_redirects=True)
@@ -115,12 +110,13 @@ class AllTests(unittest.TestCase):
             'Michael', 'michael@realpython.com', 'python', 'python'
         )
         self.assertIn(
-            b'That username and/or email already exist.',
+            b'That Username and/or email already exist.',
             response.data
         )
 
     def test_logged_in_users_can_logout(self):
-        self.register('Fletcher', 'fletcher@realpython.com', 'python101', 'python101')
+        self.register('Fletcher', 'fletcher@realpython.com',
+                      'python101', 'python101')
         self.login('Fletcher', 'python101')
         response = self.logout()
         self.assertIn(b'Goodbye!', response.data)
@@ -130,9 +126,8 @@ class AllTests(unittest.TestCase):
         self.assertNotIn(b'Goodbye!', response.data)
 
     def test_logged_in_users_can_access_tasks_page(self):
-        self.register(
-            'Fletcher', 'fletcher@realpython.com', 'python101', 'python101'
-        )
+        self.register('Fletcher', 'fletcher@realpython.com',
+                      'python101', 'python101')
         self.login('Fletcher', 'python101')
         response = self.app.get('tasks/')
         self.assertEqual(response.status_code, 200)
@@ -141,28 +136,6 @@ class AllTests(unittest.TestCase):
     def test_not_logged_in_users_cannot_access_tasks_page(self):
         response = self.app.get('tasks/', follow_redirects=True)
         self.assertIn(b'You need to login first.', response.data)
-
-    def test_users_can_add_tasks(self):
-        self.create_user('Michael', 'michael@realpython.com', 'python')
-        self.login('Michael', 'python')
-        self.app.get('tasks/', follow_redirects=True)
-        response = self.create_task()
-        self.assertIn(
-            b'New entry was successfully posted. Thanks.', response.data
-        )
-
-    def test_users_cannot_add_tasks_when_error(self):
-        self.create_user('Michael', 'michael@realpython.com', 'python')
-        self.login('Michael', 'python')
-        self.app.get('tasks/', follow_redirects=True)
-        response = self.app.post('add/', data=dict(
-            name='Go to the bank',
-            due_date='',
-            priority='1',
-            posted_date='02/05/2014',
-            status='1'
-        ), follow_redirects=True)
-        self.assertIn(b'This field is required.', response.data)
 
     def test_users_can_complete_tasks(self):
         self.create_user('Michael', 'michael@realpython.com', 'python')
